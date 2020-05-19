@@ -1,0 +1,12 @@
+/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/dao/MovieDao.java
+/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/exception/DataProcessingException.java
+/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/service/impl/MovieServiceImpl.java
+/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/lib/Injector.java
+/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/lib/Dao.java
+/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/dao/impl/MovieDaoImpl.java
+/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/lib/Inject.java
+/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/model/Movie.java
+/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/service/MovieService.java
+/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/Main.java
+/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/util/HibernateUtil.java
+/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/lib/Service.java
