@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.29">
+<file name="/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/lib/Inject.java">
+</file>
+<file name="/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/lib/Service.java">
+</file>
+<file name="/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/lib/Dao.java">
+</file>
+<file name="/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/lib/Injector.java">
+</file>
+<file name="/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/model/Movie.java">
+</file>
+<file name="/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/Main.java">
+</file>
+<file name="/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/dao/MovieDao.java">
+</file>
+<file name="/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/dao/impl/MovieDaoImpl.java">
+</file>
+<file name="/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/exception/DataProcessingException.java">
+</file>
+<file name="/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/util/HibernateUtil.java">
+</file>
+<file name="/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/service/MovieService.java">
+</file>
+<file name="/home/vladyslav/IdeaProjects/cinema/src/main/java/com/dev/cinema/service/impl/MovieServiceImpl.java">
+</file>
+<file name="/home/vladyslav/IdeaProjects/cinema/src/main/resources/log4j.properties">
+</file>
+</checkstyle>

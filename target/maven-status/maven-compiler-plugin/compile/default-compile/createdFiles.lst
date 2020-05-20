@@ -1,0 +1,12 @@
+com/dev/cinema/lib/Inject.class
+com/dev/cinema/lib/Injector.class
+com/dev/cinema/util/HibernateUtil.class
+com/dev/cinema/service/MovieService.class
+com/dev/cinema/dao/impl/MovieDaoImpl.class
+com/dev/cinema/service/impl/MovieServiceImpl.class
+com/dev/cinema/exception/DataProcessingException.class
+com/dev/cinema/lib/Service.class
+com/dev/cinema/lib/Dao.class
+com/dev/cinema/model/Movie.class
+com/dev/cinema/dao/MovieDao.class
+com/dev/cinema/Main.class
