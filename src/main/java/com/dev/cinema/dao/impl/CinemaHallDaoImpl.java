@@ -1,6 +1,7 @@
 package com.dev.cinema.dao.impl;
 
 import com.dev.cinema.dao.CinemaHallDao;
+import com.dev.cinema.exception.DataProcessingException;
 import com.dev.cinema.lib.Dao;
 import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.util.HibernateUtil;
@@ -29,7 +30,7 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't add CinemaHall entity", e);
+            throw new DataProcessingException("Can't add CinemaHall entity", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -39,9 +40,7 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
 
     @Override
     public List<CinemaHall> getAll() {
-        Session session = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<CinemaHall> cr = cb.createQuery(CinemaHall.class);
             Root<CinemaHall> root = cr.from(CinemaHall.class);
@@ -49,11 +48,7 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
             Query<CinemaHall> query = session.createQuery(cr);
             return query.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all CinemaHalls entityes", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
+            throw new DataProcessingException("Can't get all CinemaHalls entityes", e);
         }
     }
 }

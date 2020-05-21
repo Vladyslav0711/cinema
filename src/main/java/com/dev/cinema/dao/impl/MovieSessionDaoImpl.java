@@ -6,8 +6,6 @@ import com.dev.cinema.lib.Dao;
 import com.dev.cinema.model.MovieSession;
 import com.dev.cinema.util.HibernateUtil;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -20,24 +18,18 @@ import org.hibernate.Transaction;
 public class MovieSessionDaoImpl implements MovieSessionDao {
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
-        Session session = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<MovieSession> cr = cb.createQuery(MovieSession.class);
             Root<MovieSession> root = cr.from(MovieSession.class);
             Predicate[] predicates = new Predicate[2];
             predicates[0] = cb.equal(root.get("movie"), movieId);
             predicates[1] = cb.greaterThan(root.get("showTime"),
-                    LocalDateTime.of(date, LocalTime.now()));
+                    date.atStartOfDay());
             cr.select(root).where(predicates);
             return session.createQuery(cr).getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Error retrieving all movie sessions", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
     }
 
@@ -56,7 +48,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't add MovieSession entity", e);
+            throw new DataProcessingException("Can't add MovieSession entity", e);
         } finally {
             if (session != null) {
                 session.close();
