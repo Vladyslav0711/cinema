@@ -5,6 +5,7 @@ import com.dev.cinema.exception.DataProcessingException;
 import com.dev.cinema.lib.Dao;
 import com.dev.cinema.model.User;
 import com.dev.cinema.util.HibernateUtil;
+import java.util.Optional;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -15,15 +16,13 @@ import org.hibernate.Transaction;
 public class UserDaoImpl implements UserDao {
     @Override
     public User add(User user) {
-
         Session session = null;
         Transaction transaction = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            Long id = (Long) session.save(user);
+            session.save(user);
             transaction.commit();
-            user.setId(id);
             return user;
         } catch (Exception e) {
             if (transaction != null) {
@@ -38,13 +37,13 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User findByEmail(String email) {
+    public Optional<User> findByEmail(String email) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<User> cr = cb.createQuery(User.class);
             Root<User> root = cr.from(User.class);
             cr.select(root).where(cb.equal(root.get("email"), email));
-            return session.createQuery(cr).uniqueResult();
+            return session.createQuery(cr).uniqueResultOptional();
         } catch (Exception e) {
             throw new DataProcessingException("Error retrieving all movie sessions", e);
         }
