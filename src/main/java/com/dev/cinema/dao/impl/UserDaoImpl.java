@@ -1,35 +1,34 @@
 package com.dev.cinema.dao.impl;
 
-import com.dev.cinema.dao.CinemaHallDao;
+import com.dev.cinema.dao.UserDao;
 import com.dev.cinema.exception.DataProcessingException;
 import com.dev.cinema.lib.Dao;
-import com.dev.cinema.model.CinemaHall;
+import com.dev.cinema.model.User;
 import com.dev.cinema.util.HibernateUtil;
-import java.util.List;
+import java.util.Optional;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 @Dao
-public class CinemaHallDaoImpl implements CinemaHallDao {
+public class UserDaoImpl implements UserDao {
     @Override
-    public CinemaHall add(CinemaHall cinemaHall) {
-        Transaction transaction = null;
+    public User add(User user) {
         Session session = null;
+        Transaction transaction = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.save(cinemaHall);
+            session.save(user);
             transaction.commit();
-            return cinemaHall;
+            return user;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't add CinemaHall entity", e);
+            throw new DataProcessingException("Can't add user", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -38,16 +37,15 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
     }
 
     @Override
-    public List<CinemaHall> getAll() {
+    public Optional<User> findByEmail(String email) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<CinemaHall> cr = cb.createQuery(CinemaHall.class);
-            Root<CinemaHall> root = cr.from(CinemaHall.class);
-            cr.select(root);
-            Query<CinemaHall> query = session.createQuery(cr);
-            return query.getResultList();
+            CriteriaQuery<User> cr = cb.createQuery(User.class);
+            Root<User> root = cr.from(User.class);
+            cr.select(root).where(cb.equal(root.get("email"), email));
+            return session.createQuery(cr).uniqueResultOptional();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get all CinemaHalls entityes", e);
+            throw new DataProcessingException("Error retrieving all movie sessions", e);
         }
     }
 }
