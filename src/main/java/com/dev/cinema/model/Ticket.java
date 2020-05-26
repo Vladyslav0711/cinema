@@ -12,9 +12,9 @@ import javax.persistence.Table;
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     @ManyToOne
-    MovieSession movieSession;
+    private MovieSession movieSession;
 
     public Long getId() {
         return id;
