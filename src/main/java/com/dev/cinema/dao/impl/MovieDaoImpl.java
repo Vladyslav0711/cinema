@@ -4,10 +4,17 @@ import com.dev.cinema.dao.MovieDao;
 import com.dev.cinema.exception.DataProcessingException;
 import com.dev.cinema.model.Movie;
 import java.util.List;
+import java.util.Optional;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import com.dev.cinema.model.ShoppingCart;
+import com.dev.cinema.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -50,6 +57,19 @@ public class MovieDaoImpl implements MovieDao {
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Error retrieving all movies ", e);
+        }
+    }
+
+    @Override
+    public Optional<Movie> getById(Long userId) {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Movie> cr = cb.createQuery(Movie.class);
+            Root<Movie> root = cr.from(Movie.class);
+            cr.select(root).where(cb.equal(root.get("id"), userId));
+            return session.createQuery(cr).uniqueResultOptional();
+        } catch (Exception e) {
+            throw new DataProcessingException("Error retrieving movie", e);
         }
     }
 }

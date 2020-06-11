@@ -52,7 +52,20 @@ public class UserDaoImpl implements UserDao {
             cr.select(root).where(cb.equal(root.get("email"), email));
             return session.createQuery(cr).uniqueResultOptional();
         } catch (Exception e) {
-            throw new DataProcessingException("Error retrieving all movie sessions", e);
+            throw new DataProcessingException("Error retrieving user by email", e);
+        }
+    }
+
+    @Override
+    public Optional<User> getById(Long userId) {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<User> cr = cb.createQuery(User.class);
+            Root<User> root = cr.from(User.class);
+            cr.select(root).where(cb.equal(root.get("id"), userId));
+            return session.createQuery(cr).uniqueResultOptional();
+        } catch (Exception e) {
+            throw new DataProcessingException("Error retrieving user by id", e);
         }
     }
 }
