@@ -3,7 +3,6 @@ package com.dev.cinema.dao.impl;
 import com.dev.cinema.dao.ShoppingCartDao;
 import com.dev.cinema.exception.DataProcessingException;
 import com.dev.cinema.model.ShoppingCart;
-import com.dev.cinema.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -42,14 +41,14 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
     }
 
     @Override
-    public ShoppingCart getByUser(User user) {
+    public ShoppingCart getByUserId(Long userId) {
         try (Session session = sessionFactory.openSession()) {
             Query<ShoppingCart> query = session.createQuery("from ShoppingCart sc"
-                    + " left join fetch sc.tickets where sc.user = :user", ShoppingCart.class)
-                    .setParameter("user", user);
+                    + " left join fetch sc.tickets where sc.user.id = :userId", ShoppingCart.class)
+                    .setParameter("userId", userId);
             return query.uniqueResult();
         } catch (Exception e) {
-            throw new DataProcessingException("Error getting cart by user sessions", e);
+            throw new DataProcessingException("Error getting cart by user id", e);
         }
     }
 

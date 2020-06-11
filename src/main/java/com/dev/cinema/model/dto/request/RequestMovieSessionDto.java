@@ -1,8 +1,7 @@
 package com.dev.cinema.model.dto.request;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class RequestMovieSessionDto {
     private Long movieId;

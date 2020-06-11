@@ -20,8 +20,8 @@ public class MovieSessionMapper {
     }
 
     public MovieSession mapToMovieSession(RequestMovieSessionDto
-                                     requestMovieSessionDto) {
-        MovieSession movieSession= new MovieSession();
+                                                  requestMovieSessionDto) {
+        MovieSession movieSession = new MovieSession();
         movieSession.setMovie(movieService
                 .getById(requestMovieSessionDto.getMovieId()));
         movieSession.setCinemaHall(cinemaHallService
@@ -30,8 +30,8 @@ public class MovieSessionMapper {
         return movieSession;
     }
 
-    public ResponseMovieSessionDto mapToResponseMovieSessionDto(MovieSession
-                                                                        movieSession) {
+    public ResponseMovieSessionDto mapToResponseMovieSessionDto(
+            MovieSession movieSession) {
         ResponseMovieSessionDto responseMovieSessionDto = new ResponseMovieSessionDto();
         responseMovieSessionDto.setCinemaHallId(movieSession.getCinemaHall().getId());
         responseMovieSessionDto.setMovieId(movieSession.getMovie().getId());

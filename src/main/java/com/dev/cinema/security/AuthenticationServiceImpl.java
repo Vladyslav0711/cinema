@@ -2,6 +2,7 @@ package com.dev.cinema.security;
 
 import com.dev.cinema.exception.AuthenticationException;
 import com.dev.cinema.model.User;
+import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
 import com.dev.cinema.util.HashUtil;
 import org.springframework.stereotype.Service;
@@ -9,10 +10,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
+    private HashUtil hashUtil;
     private UserService userService;
+    private ShoppingCartService shoppingCartService;
 
-    public AuthenticationServiceImpl(UserService userService) {
+    public AuthenticationServiceImpl(HashUtil hashUtil, UserService userService,
+                                     ShoppingCartService shoppingCartService) {
+        this.hashUtil = hashUtil;
         this.userService = userService;
+        this.shoppingCartService = shoppingCartService;
     }
 
     @Override
@@ -21,7 +27,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (userFromDb == null) {
             throw new AuthenticationException("Incorrect username or Password");
         }
-        if (HashUtil.hashPassword(password, userFromDb.getSalt())
+        if (hashUtil.hashPassword(password, userFromDb.getSalt())
                 .equals(userFromDb.getPassword())) {
             return userFromDb;
         }
@@ -31,11 +37,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public User register(String email, String password) {
         User user = new User();
-        byte[] salt = HashUtil.getSalt();
+        byte[] salt = hashUtil.getSalt();
         user.setEmail(email);
         user.setSalt(salt);
-        String hashedPassword = HashUtil.hashPassword(password, salt);
+        String hashedPassword = hashUtil.hashPassword(password, salt);
         user.setPassword(hashedPassword);
-        return userService.add(user);
+        user = userService.add(user);
+        shoppingCartService.registerNewShoppingCart(user);
+        return user;
     }
 }

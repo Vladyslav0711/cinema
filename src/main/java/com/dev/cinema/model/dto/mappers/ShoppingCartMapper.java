@@ -5,10 +5,9 @@ import com.dev.cinema.model.dto.request.RequestShoppingCartDto;
 import com.dev.cinema.model.dto.responce.ResponseShoppingCartDto;
 import com.dev.cinema.model.dto.responce.ResponseTicketDto;
 import com.dev.cinema.service.UserService;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ShoppingCartMapper {

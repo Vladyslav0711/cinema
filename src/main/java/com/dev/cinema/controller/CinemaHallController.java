@@ -4,10 +4,13 @@ import com.dev.cinema.model.dto.mappers.CinemaHallMapper;
 import com.dev.cinema.model.dto.request.RequestCinemaHallDto;
 import com.dev.cinema.model.dto.responce.ResponseCinemaHallDto;
 import com.dev.cinema.service.CinemaHallService;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/cinemahalls")
