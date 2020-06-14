@@ -5,6 +5,7 @@ import com.dev.cinema.exception.DataProcessingException;
 import com.dev.cinema.model.MovieSession;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -59,6 +60,19 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             if (session != null) {
                 session.close();
             }
+        }
+    }
+
+    @Override
+    public Optional<MovieSession> getById(Long movieSessionId) {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<MovieSession> cr = cb.createQuery(MovieSession.class);
+            Root<MovieSession> root = cr.from(MovieSession.class);
+            cr.select(root).where(cb.equal(root.get("id"), movieSessionId));
+            return session.createQuery(cr).uniqueResultOptional();
+        } catch (Exception e) {
+            throw new DataProcessingException("Error retrieving user by id", e);
         }
     }
 }
