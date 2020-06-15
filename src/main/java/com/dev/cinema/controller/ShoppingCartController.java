@@ -33,11 +33,10 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/add-movie-session")
-    public void addMovieSession(Authentication authentication,
+    public void addMovieSession(@RequestParam Long userId,
                                 @RequestParam Long movieSessionId) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         shoppingCartService.addSession(movieSessionService.getById(movieSessionId),
-                userService.findByEmail(userDetails.getUsername()));
+                userService.getById(userId));
     }
 
     @GetMapping("byuser")
