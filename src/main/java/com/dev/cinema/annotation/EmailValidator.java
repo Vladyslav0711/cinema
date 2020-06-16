@@ -10,6 +10,7 @@ public class EmailValidator implements
     public boolean isValid(String email,
                            ConstraintValidatorContext constraintValidatorContext) {
         String regexp = ".+@.+\\..+";
-        return email.matches(regexp) && email.length() > 7 && email.length() < 50;
+        return email != null && email.matches(regexp)
+                && email.length() > 7 && email.length() < 50;
     }
 }

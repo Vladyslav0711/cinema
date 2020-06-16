@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/shoppingcarts")
+@RequestMapping("/shopping-carts")
 public class ShoppingCartController {
     private ShoppingCartService shoppingCartService;
     private UserService userService;
@@ -39,7 +39,7 @@ public class ShoppingCartController {
                 userService.getById(userId));
     }
 
-    @GetMapping("byuser")
+    @GetMapping("by-user")
     public ResponseShoppingCartDto getByUserId(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = userService.findByEmail(userDetails.getUsername());
