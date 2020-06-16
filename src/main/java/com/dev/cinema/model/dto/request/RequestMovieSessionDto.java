@@ -9,6 +9,7 @@ public class RequestMovieSessionDto {
     private Long movieId;
     @NotNull
     private Long cinemaHallId;
+    @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime showTime;
 
