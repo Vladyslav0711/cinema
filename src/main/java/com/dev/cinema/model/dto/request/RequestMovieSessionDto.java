@@ -1,11 +1,15 @@
 package com.dev.cinema.model.dto.request;
 
 import java.time.LocalDateTime;
+import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class RequestMovieSessionDto {
+    @NotNull
     private Long movieId;
+    @NotNull
     private Long cinemaHallId;
+    @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime showTime;
 
