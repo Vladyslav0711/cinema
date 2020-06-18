@@ -6,6 +6,7 @@ import com.dev.cinema.model.User;
 import java.util.Optional;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -49,6 +50,7 @@ public class UserDaoImpl implements UserDao {
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<User> cr = cb.createQuery(User.class);
             Root<User> root = cr.from(User.class);
+            root.fetch("roles", JoinType.LEFT);
             cr.select(root).where(cb.equal(root.get("email"), email));
             return session.createQuery(cr).uniqueResultOptional();
         } catch (Exception e) {
@@ -62,6 +64,7 @@ public class UserDaoImpl implements UserDao {
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<User> cr = cb.createQuery(User.class);
             Root<User> root = cr.from(User.class);
+            root.fetch("roles", JoinType.LEFT);
             cr.select(root).where(cb.equal(root.get("id"), userId));
             return session.createQuery(cr).uniqueResultOptional();
         } catch (Exception e) {

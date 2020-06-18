@@ -6,14 +6,24 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "role")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Enumerated(EnumType.STRING)
     private RoleName roleName;
+
+    public Role() {
+
+    }
+
+    private Role(RoleName roleName) {
+        this.roleName = roleName;
+    }
 
     public Long getId() {
         return id;
@@ -29,6 +39,10 @@ public class Role {
 
     public void setRoleName(RoleName roleName) {
         this.roleName = roleName;
+    }
+
+    public static Role of(String roleName) {
+        return new Role(RoleName.valueOf(roleName));
     }
 
     public enum RoleName {
