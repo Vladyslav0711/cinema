@@ -1,24 +1,31 @@
 package com.dev.cinema.security;
 
 import com.dev.cinema.exception.AuthenticationException;
+import com.dev.cinema.model.Role;
 import com.dev.cinema.model.User;
+import com.dev.cinema.service.RoleService;
 import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
-import com.dev.cinema.util.HashUtil;
+import java.util.Set;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-    private HashUtil hashUtil;
     private UserService userService;
     private ShoppingCartService shoppingCartService;
+    private PasswordEncoder passwordEncoder;
+    private RoleService roleService;
 
-    public AuthenticationServiceImpl(HashUtil hashUtil, UserService userService,
-                                     ShoppingCartService shoppingCartService) {
-        this.hashUtil = hashUtil;
+    public AuthenticationServiceImpl(UserService userService,
+                                     ShoppingCartService shoppingCartService,
+                                     PasswordEncoder passwordEncoder,
+                                     RoleService roleService) {
         this.userService = userService;
         this.shoppingCartService = shoppingCartService;
+        this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
     }
 
     @Override
@@ -27,8 +34,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (userFromDb == null) {
             throw new AuthenticationException("Incorrect username or Password");
         }
-        if (hashUtil.hashPassword(password, userFromDb.getSalt())
-                .equals(userFromDb.getPassword())) {
+        if (passwordEncoder.matches(password, userFromDb.getPassword())) {
             return userFromDb;
         }
         throw new AuthenticationException("Incorrect username or password");
@@ -37,11 +43,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public User register(String email, String password) {
         User user = new User();
-        byte[] salt = hashUtil.getSalt();
         user.setEmail(email);
-        user.setSalt(salt);
-        String hashedPassword = hashUtil.hashPassword(password, salt);
+        String hashedPassword = passwordEncoder.encode(password);
         user.setPassword(hashedPassword);
+        Role role = roleService.getRoleByName("USER");
+        user.setRoles(Set.of(role));
         user = userService.add(user);
         shoppingCartService.registerNewShoppingCart(user);
         return user;
